@@ -3,10 +3,6 @@
 //write ispisuje br stvorenih brojeva svake sekunde
 //Sim traje 20s, komunikacija medju procesa koristi red v vektor
 
-
-//*******    NEM JO, DE VALAMI MUKODIK!! KIJAVITANI!!   *******
-
-
 #include <systemc>
 #include <iostream>
 #include <cstdlib>
@@ -51,11 +47,11 @@ SC_MODULE(Module01)
 			int cnt = 0;
 			for(;;)
 			{	
-				//meg kell szamolni egy s alatt mennyi szam erkezett!
+
 				cnt = 0;
 				wait(0.01, sc_core::SC_SEC);
-				//int cnt;
 				int out;
+
 				while(ints.size() != 0)
 				{
 					//cnt = 0;
@@ -64,12 +60,9 @@ SC_MODULE(Module01)
 					ints.pop_front();
 					//Check sent numbers
 					//std::cout << "Sent number " << num <<" at time: " << sc_core::sc_time_stamp() << ".\n";
-					//std::cout << "\n";
 					out = cnt;
-					//cnt = 0;
 				}
 				std::cout << "Numbers sent " << out <<" at time: " << sc_core::sc_time_stamp() << ".\n";
-				//cnt = 0;
 			}
         	}
 };
