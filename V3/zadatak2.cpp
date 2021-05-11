@@ -6,12 +6,13 @@
 #define ACTIVATED 1
 #define EXPLODED 2
 
+int number_of_particles = 0; 
+int number_of_exploded_particles = 0;
+
 
 SC_MODULE(Particle){
     private:
         int state;
-        static int number_of_particles = 0;
-        static int number_of_exploded_particles = 0;
         int explosion_time;
 
     public:
@@ -23,16 +24,21 @@ SC_MODULE(Particle){
 
         void activate(){
             state = DEACTIVATED;
-            if(number_of_particles == 0){
-                state = ACTIVATED;
-                explode();
-            }
+
             while(true){
-                wait(explode_event);
-                int activation_chance = rand()%100+1;
+                if(number_of_particles == 0){
+                    state = ACTIVATED;
+                    number_of_particles++;
+                    explode();
+                }
+                if(number_of_particles =! 1)
+                    wait(explode_event);
                 
+                int activation_chance = rand()%100+1;
+
                 if(activation_chance == 1){
                     state = ACTIVATED;
+                    number_of_particles++;
                     explode();
                 }
                 
@@ -50,15 +56,14 @@ SC_MODULE(Particle){
 
         void print_status(){
             std::cout<< "number of exploded particles: "<< number_of_exploded_particles;
-            std::cout<< " time: "<<sc_core::sc_time_stamp()<< endl;
+            std::cout<< " time: "<<sc_core::sc_time_stamp()<< std::endl;
         }
-        
              
 };
 
 SC_MODULE(Many_particles)
 {
-  sc_vector<Particle> m; 
+  sc_core::sc_vector<Particle> m; 
   SC_CTOR(Many_particles)
     : m("particles", 1000) // constructor
   {}
@@ -68,5 +73,6 @@ int sc_main(int argc, char* argv[]){
     Many_particles uut("UUT");
     sc_core::sc_start();
 
+    return 0;
 }
 
