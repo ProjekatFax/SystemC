@@ -73,7 +73,6 @@ SC_MODULE(Many_particles)
 int sc_main(int argc, char* argv[]){
     Many_particles uut("UUT");
     sc_core::sc_start();
-
     return 0;
 }
 
